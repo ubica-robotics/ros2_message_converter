@@ -306,7 +306,8 @@ def _is_field_type_an_array(field_type):
     return field_type.find('sequence') >= 0
 
 def _is_field_type_binary_type_array(field_type):
-    return field_type.find('sequence<uint8>') >= 0 or field_type.find('sequence<char>') >= 0
+    # return field_type.find('sequence<uint8>') >= 0 or field_type.find('sequence<char>') >= 0
+    return field_type.find('sequence<char>') >= 0
 
 def _is_field_type_a_primitive_array(field_type):
     bracket_index = field_type.find('<')
