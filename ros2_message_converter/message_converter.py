@@ -146,8 +146,8 @@ def _convert_to_ros_type(field_name, field_type, field_value, check_types=True):
         field_value = _convert_to_ros_binary(field_type, field_value)
     elif _is_field_type_binary_type_array(field_type):
         field_value = list(bytearray(base64.b64decode(field_value)))
-    elif field_type in ros_time_types:
-        field_value = _convert_to_ros_time(field_type, field_value)
+    #elif field_type in ros_time_types:
+    #    field_value = _convert_to_ros_time(field_type, field_value)
     elif field_type in ros_primitive_types:
         # Note: one could also use genpy.message.check_type() here, but:
         # 1. check_type is "not designed to run fast and is meant only for error diagnosis"
@@ -187,19 +187,19 @@ def _convert_to_ros_time(field_type, field_value):
     time = None
     if field_type == 'builtin_interfaces/Time':
         time = Time()
-        if 'secs' in field_value:
-            setattr(time,'sec',field_value['secs'])
+        if 'sec' in field_value:
+            setattr(time,'sec',field_value['sec'])
             #time = Time(seconds=field_value['secs'])
-        if 'nsecs' in field_value:
-            setattr(time,'nanosec',field_value['nsecs'])
+        if 'nanosec' in field_value:
+            setattr(time,'nanosec',field_value['nanosec'])
             #time = Time(nanoseconds=field_value['nsecs'])
     elif field_type == 'builtin_interfaces/Duration':
         time = Duration()
-        if 'secs' in field_value:
-            setattr(time,'sec',field_value['secs'])
+        if 'sec' in field_value:
+            setattr(time,'sec',field_value['sec'])
             #time = Duration(seconds=field_value['secs'])
-        if 'nsecs' in field_value:
-            setattr(time,'nanosec',field_value['nsecs'])
+        if 'nanosec' in field_value:
+            setattr(time,'nanosec',field_value['nanosec'])
             #time = Duration(nanoseconds=field_value['nsecs'])
         
 
@@ -254,8 +254,8 @@ def convert_ros_message_to_dictionary(message):
 def _convert_from_ros_type(field_type, field_value):
     if field_type in ros_primitive_types:
         field_value = field_value
-    elif field_type in ros_time_types:
-        field_value = _convert_from_ros_time(field_type, field_value)
+    #elif field_type in ros_time_types:
+    #    field_value = _convert_from_ros_time(field_type, field_value)
     elif _is_ros_binary_type(field_type):
         field_value = _convert_from_ros_binary(field_type, field_value)
     elif _is_field_type_a_primitive_array(field_type):
@@ -297,8 +297,8 @@ def _convert_from_ros_binary(field_type, field_value):
 
 def _convert_from_ros_time(field_type, field_value):
     field_value = {
-        'secs'  : field_value.secs,
-        'nsecs' : field_value.nsecs
+        'sec'  : field_value.sec,
+        'nanosec' : field_value.nanosec
     }
     return field_value
 
@@ -324,7 +324,8 @@ def _is_field_type_an_array(field_type):
     return field_type.find('sequence') >= 0
 
 def _is_field_type_binary_type_array(field_type):
-    return field_type.find('sequence<uint8>') >= 0 or field_type.find('sequence<char>') >= 0
+    # return field_type.find('sequence<uint8>') >= 0 or field_type.find('sequence<char>') >= 0
+    return field_type.find('sequence<char>') >= 0
 
 def _is_field_type_a_primitive_array(field_type):
     bracket_index = field_type.find('<')
