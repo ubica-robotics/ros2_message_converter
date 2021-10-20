@@ -70,7 +70,8 @@ ros_to_python_type_map = {
     'uint64'  : python_int_types + [np.uint8, np.uint16, np.uint32, np.uint64],
     'byte'    : python_int_types + [np.int8],
     'char'    : python_int_types + [np.uint8],
-    'string'  : python_string_types
+    'string'  : python_string_types,
+    'octet'   : python_int_types + [np.uint8]
 }
 
 ros_time_types = ['time', 'duration', 'builtin_interfaces/Time','builtin_interfaces/Duration']
@@ -245,6 +246,8 @@ def convert_ros_message_to_dictionary(message):
     return dictionary
 
 def _convert_from_ros_type(field_type, field_value):
+    if field_type == 'octet':
+        field_value = field_value = int.from_bytes(field_value, "big")
     if field_type in ros_primitive_types:
         field_value = field_value
     #elif field_type in ros_time_types:
