@@ -254,8 +254,8 @@ def convert_ros_message_to_dictionary(message):
 
 def _convert_from_ros_type(field_type, field_value):
     if field_type == 'octet':
-        field_value = field_value = int.from_bytes(field_value, "big")
-    if field_type in ros_primitive_types:
+        field_value = int.from_bytes(field_value, "big")
+    elif if field_type in ros_primitive_types:
         field_value = field_value
     #elif field_type in ros_time_types:
     #    field_value = _convert_from_ros_time(field_type, field_value)
